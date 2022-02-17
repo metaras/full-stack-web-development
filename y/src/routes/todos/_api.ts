@@ -1,6 +1,6 @@
 let todos: Todo[] = [];
 
-export const api = (request, todo?: Todo) => {
+export const api = (request, data?: Record<string, unknown>) => {
     let body = {};
     let status = 500;
 
@@ -11,7 +11,7 @@ export const api = (request, todo?: Todo) => {
             break;
 
         case "POST":
-            todos.push(todo);
+            todos.push(data as Todo);
             return {
                 status: 303,
                 headers: {
@@ -21,6 +21,16 @@ export const api = (request, todo?: Todo) => {
 
         case "DELETE":
             todos = todos.filter(todo => todo.uid !== request.params.uid)
+            status = 200;
+            break;
+
+        case "PATCH":
+            todos = todos.map(todo => {
+                if (todo.uid === request.params.uid) {
+                    todo.text = data.text as string
+                }
+                return todo;
+            });
             status = 200;
             break;
 
