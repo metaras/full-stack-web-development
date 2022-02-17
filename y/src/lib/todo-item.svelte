@@ -1,5 +1,6 @@
 <script lang="ts">
   export let todo: Todo;
+  const done = todo.done;
 </script>
 
 <style>
@@ -61,7 +62,7 @@
 
     .delete {
         background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 5V22H19.5V5H4.5Z' fill='%23676778' stroke='%23676778' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M10 10V16.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 10V16.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M2 5H22' stroke='%23676778' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 5L9.6445 2H14.3885L16 5H8Z' fill='%23676778' stroke='%23676778' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-        opacity: 0.6;
+        opacity: 0.5;
     }
 
     .delete:hover,
@@ -72,18 +73,19 @@
 
     .done {
         transform: none;
-        opacity: 0.8;
+        opacity: 0.5;
         filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.1));
     }
 
     .done .toggle {
         background-image: url("data:image/svg+xml,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 1.5L7.4375 14.5L1.5 8.5909' stroke='%23676778' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
+
 </style>
-<div class="todo done">
-  <form action="" method="">
-    <input type="hidden" name="done" value=""/>
-    <button aria-label="Mark done/not done" class="toggle"></button>
+<div class="todo" class:done>
+  <form action="/todos/{todo.uid}.json?_method=patch" method="post">
+    <input type="hidden" name="done" value="{todo.done ? '' : 'true'}"/>
+    <button aria-label="Mark todo as {todo.done ? 'not done' : 'done'}" class="toggle"></button>
   </form>
 
   <form action="/todos/{todo.uid}.json?_method=patch" method="post" class="text">
