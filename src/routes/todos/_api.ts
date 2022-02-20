@@ -1,3 +1,4 @@
+// import type { Request } from "@sveltejs/kit"
 import PrismaClient from "$lib/prisma";
 
 const prisma = new PrismaClient();
@@ -15,11 +16,11 @@ export const api = async (request, data?: Record<string, unknown>) => {
         case "POST":
             body = await prisma.todo.create({
                 data: {
-                    created_at: data.create_at as Date,
+                    created_at: data.created_at as Date,
                     done: data.done as boolean,
                     text: data.text as string
                 }
-            })
+            });
             status = 201;
             break;
 
